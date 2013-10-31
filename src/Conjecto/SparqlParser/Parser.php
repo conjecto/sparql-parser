@@ -384,12 +384,23 @@ class Parser
     {
         while(strtolower(current($this->tokens))!='from'& strtolower(current($this->tokens))!='where'){
             $this->_fastForward();
-            if($this->varCheck(current($this->tokens))|$this->iriCheck(current($this->tokens))){
-                $this->query->addResultVar(current($this->tokens));
+            $token = current($this->tokens);
+
+            if($this->iriCheck($token) || $this->varCheck($token)) {
+
+                if($this->iriCheck($token)) {
+                    // FIXME
+                    throw new \Exception("Unable to parse this DESCRIBE pattern");
+                } elseif($this->varCheck($token)) {
+                    $currentVar = new ResultVariable($token);
+                    $this->query->addResultVar($currentVar);
+                }
+
                 if(!$this->query->getResultForm())
                     $this->query->setResultForm('describe');
             }
-            if(!current($this->tokens))
+
+            if(!$token)
                 break;
         }
         prev($this->tokens);
@@ -599,7 +610,7 @@ class Parser
      *                               pattern with the given id
      * @return void
      */
-    protected function parseGraphPattern($optional = false, $union = false, $graph = false, $constr   = false, $external = false, $subpattern = false)
+    protected function parseGraphPattern($optional = false, $union = false, $graph = false, $constr  = false, $external = false, $subpattern = false)
     {
         $pattern = $this->query->getNewPattern($constr);
         if (is_int($optional)) {
@@ -1325,14 +1336,14 @@ class Parser
         if ($this->iriCheck($node)){
             $base = $this->query->getBase();
             if ($base!=null) {
-                $node = new Resource(substr(substr($base,0,-1).substr($node,1),1,-1));
+                $node = new \EasyRdf_Resource(substr(substr($base,0,-1).substr($node,1),1,-1));
             } else {
-                $node = new Resource(substr($node,1,-1));
+                $node = new \EasyRdf_Resource(substr($node,1,-1));
             }
             return $node;
         } else if ($this->qnameCheck($node)) {
             $node = $this->query->getFullUri($node);
-            $node = new Resource($node);
+            $node = new \EasyRdf_Resource($node);
             return $node;
         } else if ($this->literalCheck($node)) {
             $ch     = substr($node, 0, 1);
@@ -1452,7 +1463,7 @@ class Parser
         $patternType = "/^a$/";
         $match = preg_match($patternType,$node,$hits);
         if($match>0){
-            $node = new Resource(RDF_NAMESPACE_URI.'type');
+            $node = new \EasyRdf_Resource(RDF_NAMESPACE_URI.'type');
             return true;
         }
         $patternDouble = "/^-?[0-9]+.[0-9]+[e|E]?-?[0-9]*/";

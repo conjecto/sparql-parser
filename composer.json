@@ -20,7 +20,8 @@
         "issues": "http://github.com/conjecto/sparql-parser/issues"
     },
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+         "easyrdf/easyrdf": "dev-master"
     },
     "require-dev": {
         "phpunit/PHPUnit": ">=3.5.15",
