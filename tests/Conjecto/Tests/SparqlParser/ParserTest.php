@@ -14,6 +14,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
     private $parser;
 
     /**
+     * @var string
+     */
+    private $prefixes = "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n";
+
+    /**
      * setUp
      */
     protected function setUp() {
@@ -45,7 +50,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
     public function testParseDescribe()
     {
 //        $query = $this->parser->parse("DESCRIBE <http://www.w3.org/People/Berners-Lee/card.rdf‎>")
-        $query = $this->parser->parse("PREFIX foaf: <http://xmlns.com/foaf/0.1/>\nDESCRIBE ?x WHERE { <http://www.w3.org/People/Berners-Lee/card.rdf‎> foaf:knows ?x }");
+        $query = $this->parser->parse($this->prefixes."DESCRIBE ?x WHERE { <http://www.w3.org/People/Berners-Lee/card.rdf‎> foaf:knows ?x }");
         $this->assertEquals("describe", $query->getResultForm());
         $this->assertCount(1, $query->getResultVars());
 
@@ -67,7 +72,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
      */
     public function _testParseSubquery()
     {
-        $query = $this->parser->parse("SELECT ?uri ?p ?o WHERE { { SELECT DISTINCT ?uri WHERE {?uri a foaf:Person} LIMIT 10 }. ?uri ?p ?o}");
+        $query = $this->parser->parse($this->prefixes."SELECT ?uri ?p ?o WHERE { { SELECT DISTINCT ?uri WHERE {?uri a foaf:Person} LIMIT 10 }. ?uri ?p ?o}");
         $this->assertEquals("select", $query->getResultForm());
     }
 }

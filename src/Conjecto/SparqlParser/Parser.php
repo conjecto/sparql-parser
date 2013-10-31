@@ -4,6 +4,40 @@ namespace Conjecto\SparqlParser;
 
 use Conjecto\SparqlParser\Query\ResultVariable;
 
+define('RDF_NAMESPACE_URI','http://www.w3.org/1999/02/22-rdf-syntax-ns#' );
+define('RDF_NAMESPACE_PREFIX','rdf' );
+define('RDF_RDF','RDF');
+define('RDF_DESCRIPTION','Description');
+define('RDF_ID','ID');
+define('RDF_ABOUT','about');
+define('RDF_ABOUT_EACH','aboutEach');
+define('RDF_ABOUT_EACH_PREFIX','aboutEachPrefix');
+define('RDF_BAG_ID','bagID');
+define('RDF_RESOURCE','resource');
+define('RDF_VALUE','value');
+define('RDF_PARSE_TYPE','parseType');
+define('RDF_PARSE_TYPE_LITERAL','Literal');
+define('RDF_PARSE_TYPE_RESOURCE','Resource');
+define('RDF_PARSE_TYPE_COLLECTION', 'Collection');
+define('RDF_TYPE','type');
+define('RDF_BAG','Bag');
+define('RDF_SEQ','Seq');
+define('RDF_ALT','Alt');
+define('RDF_LI','li');
+define('RDF_STATEMENT','Statement');
+define('RDF_SUBJECT','subject');
+define('RDF_PREDICATE','predicate');
+define('RDF_OBJECT','object');
+define('RDF_NODEID','nodeID');
+define('RDF_DATATYPE','datatype');
+define('RDF_SEEALSO','seeAlso');
+define('RDF_PROPERTY','Property');
+define('RDF_LIST','List');
+define('RDF_NIL','nil');
+define('RDF_REST','rest');
+define('RDF_FIRST','first');
+define('RDF_XMLLITERAL', 'XMLLiteral');
+
 /**
  * Class Parser
  *
@@ -651,6 +685,11 @@ class Parser
                     $this->parseConstraint(
                         $pattern, true, false, false, false, $subpattern
                     );
+                    $this->_fastForward();
+                    break;
+                case "select":
+                    // FIX ME
+                    $this->parseQuery();
                     $this->_fastForward();
                     break;
                 case ".":
