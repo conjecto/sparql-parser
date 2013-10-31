@@ -1,0 +1,36 @@
+{
+    "name": "conjecto/sparql-parser",
+    "description": "SPARQL Parser library in PHP.",
+    "version": "0.1.0",
+    "type": "library",
+    "homepage": "http://github.com/conjecto/sparql-parser",
+    "authors": [
+        {
+            "name": "Blaise de Carné",
+            "email": "blaise@conjecto.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Serwan Cravic",
+            "email": "serwan@conjecto.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/conjecto/sparql-parser/issues"
+    },
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": ">=3.5.15",
+        "squizlabs/php_codesniffer": ">=1.4.3",
+        "sami/sami": "dev-master"
+    },
+    "replace": {
+        "conjecto/sparql-parser": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "Conjecto\\SparqlParser": "src/" }
+    }
+}
